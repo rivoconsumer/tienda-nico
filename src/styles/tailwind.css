@@ -1,0 +1,229 @@
+/*
+  Estilos de la tienda (Tailwind CSS v4).
+  Compilar:  npm run css        (una vez, minificado)
+  Desarrollo: npm run dev       (recompila al guardar)
+
+  Concepto: "vidriera de taller". Fondo crema manteca, productos sobre
+  bases pastel como en un estante, y una costura punteada como detalle
+  que se repite (divisores, bordes, foco).
+*/
+@import "tailwindcss" source(none);
+@source "../../public/**/*.{html,js}";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Gloock", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+
+  /* Amarillos pastel (protagonistas) */
+  --color-paper: #fffdf6;
+  --color-cream: #fff8e5;
+  --color-butter-50: #fffbea;
+  --color-butter-100: #fef3cb;
+  --color-butter-200: #fde7a4;
+  --color-butter-300: #f9d97d;
+  --color-butter-400: #f0c659;
+  --color-butter-500: #dcaa36;
+  --color-butter-800: #77560f;
+  /* Barras de gráficos: miel con contraste 3:1 sobre papel (validado) */
+  --color-honey: #b8861f;
+
+  /* Tinta: marrón casi negro, cálido como el cuero */
+  --color-ink: #2e2a22;
+  --color-ink-soft: #6b6252;
+  --color-ink-faint: #a3998a;
+  --color-line: #eee2c0;
+
+  /* Pasteles de acompañamiento */
+  --color-peach: #f9dfcd;
+  --color-sage: #dfe8d5;
+  --color-blush: #f6e0db;
+  --color-mist: #deeaf0;
+  --color-lilac: #e8e1f2;
+
+  /* Estados */
+  --color-ok: #46743f;
+  --color-ok-soft: #e2eed8;
+  --color-bad: #a3453b;
+  --color-bad-soft: #f8e1dc;
+  --color-wait: #8a6411;
+  --color-wait-soft: #fdefc6;
+
+  --radius-tile: 1.75rem;
+  --shadow-float: 0 1px 2px rgb(46 42 34 / 0.05), 0 22px 48px -22px rgb(46 42 34 / 0.32);
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-toast-in: toast-in 0.35s var(--ease-soft) both;
+  --animate-pop: pop 0.3s var(--ease-soft);
+  --animate-sway: sway 6s ease-in-out infinite;
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+}
+
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-line);
+  }
+  html {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 7rem;
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled), summary, label[for] {
+    cursor: pointer;
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-butter-200); color: var(--color-ink); }
+  :focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+}
+
+@layer components {
+  /* Contenedor con margen lateral seguro también en celulares con muesca */
+  .wrap {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 40rem) {
+    .wrap {
+      padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+      padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+    }
+  }
+  @media (min-width: 64rem) {
+    .wrap {
+      padding-left: max(2rem, env(safe-area-inset-left, 0px));
+      padding-right: max(2rem, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  .btn {
+    @apply inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold whitespace-nowrap transition-[background-color,border-color,color,transform] duration-200 select-none active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-sm { @apply h-10 px-4 text-sm; }
+  .btn-lg { @apply h-14 px-8 text-base; }
+  .btn-dark { @apply bg-ink text-cream hover:bg-[#463f33]; }
+  .btn-butter { @apply bg-butter-300 text-ink hover:bg-butter-400; }
+  .btn-ghost { @apply border border-ink/15 bg-transparent text-ink hover:border-ink/40 hover:bg-paper; }
+  .btn-danger { @apply border border-bad/30 bg-transparent text-bad hover:bg-bad-soft; }
+
+  .icon-btn {
+    @apply inline-grid size-10 place-items-center rounded-full text-ink transition-colors hover:bg-butter-100;
+  }
+
+  .label { @apply mb-1.5 block text-sm font-medium text-ink; }
+  .hint { @apply mt-1.5 text-xs text-ink-soft; }
+  .input {
+    @apply block h-12 w-full rounded-xl border border-line bg-paper px-4 text-[15px] text-ink transition outline-none placeholder:text-ink-faint focus:border-ink/50 focus:ring-4 focus:ring-butter-200 aria-invalid:border-bad aria-invalid:ring-bad-soft;
+  }
+  textarea.input { @apply h-auto min-h-24 py-3 leading-relaxed; }
+  select.input {
+    @apply appearance-none bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+    background-size: 1.1rem;
+  }
+
+  .eyebrow { @apply text-[11px] font-semibold tracking-[0.2em] text-ink-soft uppercase; }
+  .link { @apply underline decoration-ink/25 decoration-1 underline-offset-4 transition-colors hover:decoration-ink; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold; }
+
+  /* Costura: línea punteada horizontal */
+  .stitch {
+    height: 2px;
+    background-image: linear-gradient(to right, color-mix(in srgb, var(--color-butter-500) 55%, transparent) 0 55%, transparent 55% 100%);
+    background-size: 10px 2px;
+    background-repeat: repeat-x;
+  }
+  /* Costura interna sobre una pieza (aparece al pasar el mouse) */
+  .stitch-in {
+    outline: 1.5px dashed transparent;
+    outline-offset: -11px;
+    transition: outline-color 0.25s ease;
+  }
+  .group:hover .stitch-in, .stitch-in.is-on {
+    outline-color: rgb(46 42 34 / 0.2);
+  }
+
+  /* Resaltador amarillo para palabras del título */
+  .mark {
+    color: inherit;
+    background: linear-gradient(transparent 60%, var(--color-butter-300) 60%, var(--color-butter-300) 90%, transparent 90%);
+    padding-inline: 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .card { @apply rounded-2xl border border-line bg-paper; }
+
+  /* Opciones tipo tarjeta (envío, pago) */
+  .option {
+    @apply flex cursor-pointer items-start gap-3 rounded-2xl border border-line bg-paper p-4 transition-colors hover:border-ink/30 has-[:checked]:border-ink has-[:checked]:bg-butter-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-butter-200;
+  }
+  .option-dot {
+    @apply mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border-2 border-ink/25 bg-paper transition-colors;
+  }
+  .option:has(:checked) .option-dot { @apply border-ink bg-ink shadow-[inset_0_0_0_3px_var(--color-paper)]; }
+
+  /* Muestras de color */
+  .swatch {
+    @apply relative grid size-10 place-items-center rounded-full ring-1 ring-ink/10 ring-inset transition-transform hover:scale-105;
+  }
+  .swatch-input:checked + .swatch { @apply ring-0 outline-2 outline-offset-[3px] outline-ink; }
+  .swatch-input:focus-visible + .swatch { @apply outline-2 outline-offset-[3px] outline-butter-500; }
+
+  .skeleton { @apply animate-pulse rounded-xl bg-butter-100; }
+
+  /* Interruptor (checkbox con forma de llave) */
+  .switch { @apply relative inline-flex shrink-0 cursor-pointer items-center; }
+  .switch input { @apply sr-only; }
+  .switch span { @apply block h-6 w-10 rounded-full bg-ink/15 transition-colors; }
+  .switch span::after {
+    content: "";
+    @apply absolute top-0.5 left-0.5 size-5 rounded-full bg-paper shadow-sm transition-transform;
+  }
+  .switch input:checked + span { @apply bg-ink; }
+  .switch input:checked + span::after { @apply translate-x-4; }
+  .switch input:focus-visible + span { @apply outline-2 outline-offset-2 outline-ink; }
+
+  .prose-shop p + p { @apply mt-3; }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

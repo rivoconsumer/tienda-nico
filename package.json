@@ -1,0 +1,25 @@
+{
+  "name": "tienda-nico",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tienda Moon: tienda online de marroquinería con Mercado Pago, pedidos en SQLite y panel de administración.",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "dev": "node scripts/dev.js",
+    "css": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/app.css --minify",
+    "css:watch": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/app.css --watch",
+    "test": "node --test --test-concurrency=1 \"test/*.test.js\""
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

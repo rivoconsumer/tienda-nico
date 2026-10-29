@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{{TITLE}}</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta name="theme-color" content="#fff8e5" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:site_name" content="{{STORE_NAME}}" />
+    {{OG_IMAGE}}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Gloock&display=swap" />
+    <link rel="stylesheet" href="/css/app.css" />
+    <script type="module" src="/js/app.js"></script>
+  </head>
+  <body class="flex min-h-dvh flex-col bg-cream text-ink">
+    <a href="#main" class="sr-only z-50 rounded-full bg-ink px-4 py-2 text-cream focus:not-sr-only focus:fixed focus:top-3 focus:left-3">Saltar al contenido</a>
+    <div id="announcement"></div>
+    <header id="header" class="sticky top-0 z-40 h-16 border-b border-line/80 bg-cream/90 backdrop-blur-md sm:h-[72px]"></header>
+    <main id="main" tabindex="-1" class="flex-1 outline-none"></main>
+    <footer id="footer"></footer>
+    <div id="drawer-root"></div>
+    <div id="toast-root" class="pointer-events-none fixed inset-x-0 bottom-0 z-[60] flex flex-col items-center gap-2 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]" aria-live="polite"></div>
+    <noscript>
+      <p class="wrap py-10 text-center">Para comprar en {{STORE_NAME}} necesitás activar JavaScript en tu navegador.</p>
+    </noscript>
+    <script id="bootstrap" type="application/json">{{BOOTSTRAP}}</script>
+  </body>
+</html>
